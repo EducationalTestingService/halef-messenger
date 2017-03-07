@@ -16,6 +16,7 @@
         });
 
         // Example usage of 'send_json' for client to client communication. The message parameter needs to be valid JSON>
+        // If no event is supplied, it defaults to 'message'
         socket.emit('send_json', 
                     {'user':'1234', 'event':'custom-api', 'message':'{"command":"function", "arg1":"something something"}'},
                     function(success){
@@ -23,6 +24,7 @@
                     });
 
         // Example usage of 'send' for client to client communication. The message parameter can be anything.
+        // If no event is supplied, it defaults to 'message'
         socket.emit('send', 
             {'user':'1234', 'event':'custom-api', 'message': "Some custom message. Does not need to be a string."},
             function(success){

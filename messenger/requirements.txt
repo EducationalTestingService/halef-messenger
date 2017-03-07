@@ -1,5 +1,5 @@
 Flask
-python-socketio==1.6.0
+python-socketio
 flask-socketio
 flask-redis
 gunicorn

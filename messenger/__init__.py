@@ -5,7 +5,7 @@ from flask import Flask
 from .config import config
 from .extensions import redis_store, socketio, celery
 from .api import events  # noqa
-from .tasks import send_message # noqa
+from .tasks import send_message  # noqa
 
 
 def create_app(config_name=None, main=True, settings_override=None):
@@ -28,17 +28,17 @@ def create_app(config_name=None, main=True, settings_override=None):
     # Load config from ../config.py
     app.config.from_object(config[config_name])
 
-
     # Manually overwrite any settings
     if settings_override:
         app.config.update(settings_override)
 
     # Register blueprints
-    from .api import api as api_blueprint
-    app.register_blueprint(api_blueprint, url_prefix=app.config['APPLICATION_ROOT'])
+    from .api import api as api_bp
+    app.register_blueprint(api_bp, url_prefix=app.config['APPLICATION_ROOT'])
 
-    from .health_check import health_check as health_check_blueprint
-    app.register_blueprint(health_check_blueprint, url_prefix=app.config['APPLICATION_ROOT'])
+    from .health_check import health_check as health_bp
+    app.register_blueprint(health_bp,
+                           url_prefix=app.config['APPLICATION_ROOT'])
 
     # Initialize extensions
     extensions(app, main)
