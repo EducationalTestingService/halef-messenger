@@ -15,4 +15,4 @@ For more details, look at the comments in the examples.
 You need docker and docker-compose installed on your machine. 
 
 ### Starting a development server
-Run 'docker-compose up --build' inside the developments directory. Once you are done, you can interrupt the command and stop the container with 'docker-compose stop'.
+Run 'docker-compose up --build' inside the development directory. Once you are done, you can interrupt the command and stop the container with 'docker-compose stop'.
