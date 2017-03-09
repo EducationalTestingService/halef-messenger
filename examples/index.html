@@ -1,43 +1,55 @@
 <html>
-<head>
-</head>
-<body>
-<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
-<script type="text/javascript" charset="utf-8">
-    // Connecting to the server. Be aware that SocketIO attempts reconnects once a connection is lost.
-    var socket = io.connect('ws://localhost:8000', {path: '/messenger/socketio/socket.io'});
 
-    
+<head>Ï
+</head>
+
+<body>
+    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
+    <script type="text/javascript" charset="utf-8">
+    // Connecting to the server. Be aware that SocketIO attempts reconnects once a connection is lost.
+    var socket = io.connect('ws://localhost:8000', {
+        path: '/messenger/socketio/socket.io'
+    });
+
+
     socket.on('connect', function() {
         // Once we are connected, register this client as user '1234'
-        socket.emit('register', {'user':'1234'}, function(isRegistered){
+        socket.emit('register', {
+            'user': '1234'
+        }, function(isRegistered) {
             // Handle failure more gracefully. This just prints success or failure of the connection attempts.
             console.log(isRegistered);
         });
 
         // Example usage of 'send_json' for client to client communication. The message parameter needs to be valid JSON>
         // If no event is supplied, it defaults to 'message'
-        socket.emit('send_json', 
-                    {'user':'1234', 'event':'custom-api', 'message':'{"command":"function", "arg1":"something something"}'},
-                    function(success){
-                        console.log(success);
-                    });
+        socket.emit('send_json', {
+                'user': '1234',
+                'event': 'custom-api',
+                'message': '{"command":"function", "arg1":"something something"}'
+            },
+            function(success) {
+                console.log(success);
+            });
 
         // Example usage of 'send' for client to client communication. The message parameter can be anything.
         // If no event is supplied, it defaults to 'message'
-        socket.emit('send', 
-            {'user':'1234', 'event':'custom-api', 'message': "Some custom message. Does not need to be a string."},
-            function(success){
+        socket.emit('send', {
+                'user': '1234',
+                'event': 'custom-api',
+                'message': "Some custom message. Does not need to be a string."
+            },
+            function(success) {
                 console.log(success);
             });
 
     });
 
     // Receiving messages on the custom-api namespace.
-    socket.on('custom-api', function(data){
+    socket.on('custom-api', function(data) {
         console.log(data);
     });
-
-</script>
+    </script>
 </body>
+
 </html>
