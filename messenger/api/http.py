@@ -38,6 +38,11 @@ def send():
 @api.route("/send_json", methods=['POST'])
 def send_json():
     """Endpoint to forward JSON messages."""
+    if current_app.debug:
+        current_app.logger.debug("Received request {}".format(request))
+        current_app.logger.debug(request.headers)
+        current_app.logger.debug(request.form)
+    
     args = validate_send_request(request)
 
     if redis_store.sismember("messenger:users", args['user']):
