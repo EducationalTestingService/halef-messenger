@@ -42,7 +42,7 @@ def send_json():
         current_app.logger.debug("Received request {}".format(request))
         current_app.logger.debug(request.headers)
         current_app.logger.debug(request.form)
-    
+
     args = validate_send_request(request)
 
     if redis_store.sismember("messenger:users", args['user']):
@@ -55,6 +55,8 @@ def send_json():
             return jsonify(True)
         else:
             err_msg = '"message" is not valid JSON'
+            if current_app.debug:
+                current_app.logger.debug(err_msg)
             raise APIError(err_msg)
     return jsonify(False)
 
@@ -68,6 +70,8 @@ def validate_send_request(request):
     if not (request.headers['Content-Type'] ==
             'application/x-www-form-urlencoded'):
         err_msg = 'Content-Type must be application/x-www-form-urlencoded'
+        if current_app.debug:
+            current_app.logger.debug(err_msg)
         raise APIError(err_msg, status_code=415)
 
     # Check if all required parameters are available and non-empty
@@ -78,6 +82,8 @@ def validate_send_request(request):
             any(form_data[param] == "" for param in required_params)):
         parameter_string = ','.join(required_params)
         err_msg = 'Required parameters are {}'.format(parameter_string)
+        if current_app.debug:
+            current_app.logger.debug(err_msg)
         raise APIError(err_msg)
 
     return form_data
