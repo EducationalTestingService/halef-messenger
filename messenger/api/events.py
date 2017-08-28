@@ -1,7 +1,7 @@
 import json
 
 from flask import session
-from flask_socketio import join_room
+from flask_socketio import join_room, leave_room
 from ..extensions import redis_store, socketio
 from ..tasks import send_message
 from ..utils import is_json
@@ -10,14 +10,14 @@ from ..utils import is_json
 @socketio.on('connect')
 def connect():
     session['users'] = []
-    pass
 
 
 @socketio.on('disconnect')
 def disconnect():
     for user in session['users']:
+        leave_room(user)
+        session['users'].remove(user)
         redis_store.srem("messenger:users", user)
-    pass
 
 
 @socketio.on('register')
@@ -26,6 +26,17 @@ def register(data):
         join_room(data['user'])
         session['users'].append(data['user'])
         redis_store.sadd("messenger:users", data['user'])
+        return True
+    else:
+        return False
+
+
+@socketio.on('unregister')
+def unregister(data):
+    if 'user' in data and data['user'] != "":
+        leave_room(data['user'])
+        session['users'].remove(data['user'])
+        redis_store.srem("messenger:users", data['user'])
         return True
     else:
         return False
