@@ -6,8 +6,8 @@ halef-messenger is a message server based on SocketIO using WebSocket and HTTP. 
 You need docker and docker-compose installed on your machine. 
 
 ### Development
-Run a development server (Interrupt with [Ctrl]+[C]):
+Run a development server (Interrupt with [Ctrl]+[C]):  
 ```docker-compose up --build``` 
 
-Stop the containers:
+Stop the containers:  
 ```docker-compose stop```.
