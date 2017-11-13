@@ -10,4 +10,4 @@ Run a development server (Interrupt with [Ctrl]+[C]):
 ```docker-compose up --build``` 
 
 Stop the containers:  
-```docker-compose stop```.
+```docker-compose stop```
